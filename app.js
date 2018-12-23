@@ -20,6 +20,13 @@ app.post('/api/v1/users', (req, res) => {
       success: 'false',
       message: 'password is required'
     });
+  } else if (db.filter(user => {
+    return user.username.toLowerCase() == req.body.username.toLowerCase()
+  }).length == 1) {
+      return res.status(400).send({
+        success: 'false',
+        message: 'username already exists!'
+    });
   }
   const userIDs = db.map(obj => { return obj.id });
   console.log(userIDs);
@@ -83,6 +90,33 @@ app.delete('/api/v1/users/:id', (req, res) => {
       message: 'user not found',
     });
 });
+
+//update user password
+app.put('/api/v1/users', (req, res) => {
+  let username =  req.body.username.toLowerCase();
+  let password = req.body.password;
+  let newPassword = req.body.newPassword;
+  if ((!username) || (!password) || (!newPassword)) {
+    return res.status(400).send({
+      success: 'false',
+      message: 'username, password and new password required'
+    })
+  }
+  db.map(user => {
+    if ((user.username.toLowerCase() == username) && (user.password == password)) {
+      user.password = newPassword;
+      return res.status(202).send({
+        success: 'true',
+        message: 'user has been updated'
+      })
+    }
+  })
+  return res.status(400).send({
+    success: 'false',
+    message: "user doesn't exist, or user or password didn't match"
+  })
+})
+
 
 const PORT = 5000;
 
