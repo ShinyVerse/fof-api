@@ -8,6 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//make new user
 app.post('/api/v1/users', (req, res) => {
   if (!req.body.username) {
     return res.status(400).send({
@@ -20,8 +21,12 @@ app.post('/api/v1/users', (req, res) => {
       message: 'password is required'
     });
   }
+  const userIDs = db.map(obj => { return obj.id });
+  console.log(userIDs);
+  const highestID = Math.max(...userIDs);
+    console.log(highestID);
   const user = {
-    id: db.length + 1,
+    id: highestID + 1,
     username: req.body.username,
     password: req.body.password
   }
@@ -33,6 +38,7 @@ app.post('/api/v1/users', (req, res) => {
   })
 });
 
+//get all users
 app.get('/api/v1/users', (req, res) => {
   res.status(201).send({
     success: 'true',
@@ -41,6 +47,7 @@ app.get('/api/v1/users', (req, res) => {
   })
 });
 
+// get individual
 app.get('/api/v1/users/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   db.map((user) => {
@@ -56,6 +63,25 @@ app.get('/api/v1/users/:id', (req, res) => {
    success: 'false',
    message: 'user does not exist',
  });
+});
+
+//delete users
+app.delete('/api/v1/users/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  db.map((user, index) => {
+    if (user.id === id) {
+       db.splice(index, 1);
+       return res.status(200).send({
+         success: 'true',
+         message: 'user deleted successfuly',
+       });
+    }
+  });
+    return res.status(404).send({
+      success: 'false',
+      message: 'user not found',
+    });
 });
 
 const PORT = 5000;
