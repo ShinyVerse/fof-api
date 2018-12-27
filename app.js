@@ -118,7 +118,7 @@ app.put('/api/v1/users', (req, res) => {
 })
 
 
-const PORT = 5000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
