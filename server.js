@@ -22,6 +22,7 @@ function handleError(res, reason, message, code) {
 }
 
 app.get("/users", function(req, res) {
+  console.log("Here is the env uri ::::" + process.env.MONGODB_URI);
   MongoClient.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, function (err, client) {
     if (err) throw err
     db = client.db('fof-users')
@@ -50,7 +51,7 @@ app.get("/users", function(req, res) {
 
 app.post("/createuser", function(req, res) {
   MongoClient.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, function (err, client) {
-    console.log("Here is the env uri ::::" + process.env.MONGODB_URI);
+
     db = client.db('fof-users');
 
     db.collection('users').find().toArray(function (err, result) {
