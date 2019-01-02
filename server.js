@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 var db;
-
+//Start the Server
 var server = app.listen(process.env.PORT || 8080, function () {
   var port = server.address().port;
   console.log("App now running on port", port);
@@ -20,7 +20,7 @@ function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
   res.status(code || 500).json({"error": message});
 }
-
+//Get all Usernames
 app.get("/users", function(req, res) {
   console.log("Here is the env uri ::::" + process.env.MONGODB_URI);
   MongoClient.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, function (err, client) {
@@ -36,19 +36,8 @@ app.get("/users", function(req, res) {
     });
   });
 });
-//
-// app.post("/testing", function(req, res) {
-//   MongoClient.connect(MONGODB_URI,{ useNewUrlParser: true }, function (err, client) {
-//     if (err) throw err
-//     db = client.db('fof-users')
-//
-//     db.collection('users').find().toArray(function (err, result) {
-//       if (err) throw err
-//       return result
-//     });
-//   });
-// });
 
+// Create new User
 app.post("/createuser", function(req, res) {
   MongoClient.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, function (err, client) {
 
