@@ -50,6 +50,7 @@ app.get("/users", function(req, res) {
 
 app.post("/createuser", function(req, res) {
   MongoClient.connect(process.env.MONGODB_URI,{ useNewUrlParser: true }, function (err, client) {
+    console.log("Here is the env uri ::::" + process.env.MONGODB_URI);
     db = client.db('fof-users');
 
     db.collection('users').find().toArray(function (err, result) {
