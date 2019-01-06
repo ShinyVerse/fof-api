@@ -8,3 +8,9 @@ deploy:
   app: fof-app-api-users
   on:
     repo: ShinyVerse/fof-api
+services:
+  - mongodb
+before_script:
+  - mongo
+  - use testusers
+  - db.collection.users
