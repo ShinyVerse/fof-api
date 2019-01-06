@@ -11,4 +11,4 @@ deploy:
 services:
   - mongodb
 before_script:
-  - mongo --eval 'use testusers'
+  - mongo --version
