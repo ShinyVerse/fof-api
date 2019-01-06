@@ -10,5 +10,3 @@ deploy:
     repo: ShinyVerse/fof-api
 services:
   - mongodb
-before_script:
-  - mongo --version
