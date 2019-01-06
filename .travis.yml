@@ -11,6 +11,4 @@ deploy:
 services:
   - mongodb
 before_script:
-  - mongo
-  - use testusers
-  - db.collection.users
+  - mongo --eval 'use testusers'
